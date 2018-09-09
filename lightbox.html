@@ -4,9 +4,27 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>lightbox插件</title>
 </head>
 <body>
-  
+  <!-- 遮罩层 -->
+  <div id="G-lightbox-mask"></div>
+  <!-- 弹出层 -->
+  <div id="G-lightbox-popup">
+    <!-- 图片预览区 -->
+    <div class="lightbox-pic-view">
+      <span class="lightbox-btn lightbox-prev-btn"><</span>
+      <img class="lightbox-image" src="images/0.jpg" alt="美女1">
+      <span class="lightbox-btn lightbox-next-btn">></span>
+    </div>
+    <!-- 字幕区域 -->
+    <div class="lightbox-pic-caption">
+      <div class="lightbox-caption-area">
+        <p class="lightbox-pic-desc">图片标题</p>
+        <span class="lightbox-of-index">当前索引：1 / 4</span>
+      </div>
+      <span class="lightbox-close-btn"></span>
+    </div>
+  </div>
 </body>
 </html>
