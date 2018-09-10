@@ -10,10 +10,31 @@
         // 保存body
         this.bodyNode = document.body;
 
+        this.groupName = null;
+        this.groupData = [];
+        // 点击事件委托到body中
+        this.bodyNode.onclick = function(event) {
+            var event = event || window.event;
+            var target = event.target || event.srcElement;
+            if (target.nodeName.toLowerCase() === "img") {
+                // 阻止事件冒泡
+                event.stopPropagation();
+                // 当前组名
+                var currentGroupName = target.getAttribute("data-group");
+
+                if (currentGroupName !== self.groupName) {
+                    self.groupName = currentGroupName;
+                    // 根据当前组名获取同一组的数据
+                    self.getGroup();
+                }
+            }
+        }
+
+
         // 初始化Lightbox
         this.init();
         // 渲染剩余的DOM，并插入到body中
-        this.renderDom();
+        // this.renderDom();
     }
     // Lightbox的原型对象
     Lightbox.prototype = {
@@ -40,6 +61,25 @@
             this.popupWin.innerHTML = strDom;
             // 将遮罩层和弹出层添加到body中
             this.bodyNode.append(this.popupMask, this.popupWin);
+        },
+        getGroup: function() {
+            var self = this;
+
+            // 根据当前组别获取所有当前组别的数据
+            var groupList = document.querySelectorAll("img[data-group=" + this.groupName + "]");
+
+            // 清空groupData数据
+            this.groupData.length = 0;
+
+            groupList.forEach(function(value, index) {
+                // 将数据推入groupData中
+                self.groupData.push({
+                    src: value.getAttribute("data-soure"),
+                    id: value.getAttribute("data-id"),
+                    caption: value.getAttribute("data-caption")
+                });
+            });
+            console.log(this.groupData);
         }
     }
     // 将其暴露给window对象
