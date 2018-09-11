@@ -54,8 +54,22 @@
         this.currentIndex = document.querySelector("#G-lightbox-popup .lightbox-of-index");
         // 关闭按钮
         this.closeBtn = document.querySelector("#G-lightbox-popup .lightbox-close-btn");
-        //console.log(this.closeBtn);
+        // console.log(this.closeBtn);
+
+        // 点击遮罩层关闭其与弹出层
+        this.popupMask.onclick = function() {
+            this.style.display = "none";
+            self.popupWin.style.display = "none";
+        }
+        // 点击关闭按钮关闭弹出层和遮罩层
+        this.closeBtn.onclick = function() {
+            self.popupMask.style.display = "none";
+            self.popupWin.style.display = "none";
+        }
+        // 鼠标移入移出上下切换按钮时显示处理
+        this.hoverBtn();
     }
+
     // Lightbox的原型对象
     Lightbox.prototype = {
         // 初始化弹出层方法
@@ -73,9 +87,9 @@
             this.popupWin.setAttribute("id", "G-lightbox-popup");
             // 弹出层的html内容
             var strDom = "<div class='lightbox-pic-view'>" +
-                            "<span class='lightbox-btn lightbox-prev-btn lightbox-prev-btn-show'></span>" +
+                            "<span class='lightbox-btn lightbox-prev-btn'></span>" +
                             "<img class='lightbox-image' src='images/0.jpg' alt='美女1'>" +
-                            "<span class='lightbox-btn lightbox-next-btn lightbox-next-btn-show'></span>" +
+                            "<span class='lightbox-btn lightbox-next-btn'></span>" +
                         "</div>" +
                         "<div class='lightbox-pic-caption'>" +
                             "<div class='lightbox-caption-area'>" +
@@ -219,6 +233,7 @@
                 top: Math.floor((winHeight - picHeight)/2)
             }, 10, 0.5, function() {
                 // console.log("ddd");
+                self.popupPic.style.width = "100%";
                 // 显示图片区域和图片描述区域
                 self.popupPic.style.display = "block";
                 self.picCaptionArea.style.display = "block";
@@ -227,6 +242,46 @@
             // console.log(this.index);
             this.captionText.innerText = this.groupData[this.index - 1].caption;
             this.currentIndex.innerText ="当前索引：" + this.index + "/" + this.groupData.length;
+        },
+        // 鼠标移入移出切换按钮时调整其是否显示方法
+        hoverBtn: function() {
+            var self = this;
+            // 鼠标移入向上切换按钮时
+            this.prevBtn.onmouseover = function() {
+                var prevBtn = self.prevBtn;
+                // 判断当前按钮的class中是否有disable的值
+                var disabled = false;
+                for (var i = 0, len = prevBtn.classList.length; i < len; i++) {
+                    if ( prevBtn.classList[i] === "disabled") {
+                        disabled = true;
+                    }
+                }
+                if (!disabled) {
+                    prevBtn.classList.add("lightbox-prev-btn-show");
+                }
+            };
+            // 鼠标移入向下切换按钮时
+            this.nextBtn.onmouseover = function() {
+                var nextBtn = self.nextBtn;
+                // 判断当前按钮的class中是否有disable的值
+                var disabled = false;
+                for (var i = 0, len = nextBtn.classList.length; i < len; i++) {
+                    if ( nextBtn.classList[i] === "disabled") {
+                        disabled = true;
+                    }
+                }
+                if (!disabled) {
+                    nextBtn.classList.add("lightbox-next-btn-show");
+                }
+            };
+            // 鼠标移出向上切换按钮时
+            this.prevBtn.onmouseout = function() {
+                self.prevBtn.classList.remove("lightbox-prev-btn-show");
+            };
+            // 鼠标移出向下切换按钮时
+            this.nextBtn.onmouseout = function() {
+                self.nextBtn.classList.remove("lightbox-next-btn-show");
+            };
         }
 
     }

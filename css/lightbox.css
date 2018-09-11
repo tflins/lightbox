@@ -70,7 +70,7 @@ table{border-collapse:collapse}
 }
 #G-lightbox-popup .lightbox-pic-caption {
     position: relative;
-    background-color: rgba(0, 0, 0, .5);
+    background-color: rgba(0, 0, 0, .3);
     margin: 0 5px;
     margin-top: -66px;
 }
@@ -88,4 +88,6 @@ table{border-collapse:collapse}
     width: 32px;
     height: 32px;
     background: url("../icon/close.png") no-repeat center center;
+    z-index: 2;
+    cursor: pointer;
 }
