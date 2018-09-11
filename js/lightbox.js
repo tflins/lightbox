@@ -12,6 +12,9 @@
 
         this.groupName = null;
         this.groupData = [];
+
+
+
         // 点击事件委托到body中
         this.bodyNode.onclick = function(event) {
             var event = event || window.event;
@@ -27,24 +30,48 @@
                     // 根据当前组名获取同一组的数据
                     self.getGroup();
                 }
+                // 初始化弹出层
+                self.initPopup(target);
             }
         }
 
-
-        // 初始化Lightbox
-        this.init();
         // 渲染剩余的DOM，并插入到body中
-        // this.renderDom();
+        this.renderDom();
+
+        // 图片预览区
+        this.picViewArea = document.querySelector("#G-lightbox-popup .lightbox-pic-view");
+        // 图片
+        this.popupPic = document.querySelector("#G-lightbox-popup .lightbox-image");
+        // 图片描述区域
+        this.picCaptionArea = document.querySelector("#G-lightbox-popup .lightbox-pic-caption");
+        // 向上切换按钮
+        this.prevBtn = document.querySelector("#G-lightbox-popup .lightbox-prev-btn");
+        // 向下切换按钮
+        this.nextBtn = document.querySelector("#G-lightbox-popup .lightbox-next-btn");
+        // 图片描述文本
+        this.captionText = document.querySelector("#G-lightbox-popup .lightbox-pic-desc");
+        // 当前图片索引
+        this.currentIndex = document.querySelector("#G-lightbox-popup .lightbox-of-index");
+        // 关闭按钮
+        this.closeBtn = document.querySelector("#G-lightbox-popup .lightbox-close-btn");
+        //console.log(this.closeBtn);
     }
     // Lightbox的原型对象
     Lightbox.prototype = {
-        // 初始化方法
-        init: function() {
-            this.popupMask.setAttribute("id", "G-lightbox-mask");
-            this.popupWin.setAttribute("id", "G-lightbox-popup");
+        // 初始化弹出层方法
+        initPopup: function(obj) {
+            var self = this,
+                soureSrc = obj.getAttribute("data-soure"),
+                currentId = obj.getAttribute("data-id");
+            // 调用显示方法
+            this.showMaskAndPopup(soureSrc, currentId);
         },
         // 渲染其他DOM方法
         renderDom: function() {
+            // 给遮罩层和弹出层设置id
+            this.popupMask.setAttribute("id", "G-lightbox-mask");
+            this.popupWin.setAttribute("id", "G-lightbox-popup");
+            // 弹出层的html内容
             var strDom = "<div class='lightbox-pic-view'>" +
                             "<span class='lightbox-btn lightbox-prev-btn lightbox-prev-btn-show'></span>" +
                             "<img class='lightbox-image' src='images/0.jpg' alt='美女1' width='100%'>" +
@@ -79,7 +106,41 @@
                     caption: value.getAttribute("data-caption")
                 });
             });
-            console.log(this.groupData);
+        },
+        // 显示遮罩层与弹出层
+        showMaskAndPopup: function(soureSrc, currentId) {
+            var self = this,
+                winHeight = document.documentElement.clientHeight, // 可见窗口宽度
+                winWidth = document.documentElement.clientWidth, // 可见窗口高度
+                viewHeight = winHeight/2 + 10;  // 当前弹出层高度
+            // 隐藏相关区域
+            this.popupPic.style.display = "none";
+            this.picCaptionArea.style.display = "none";
+            // 设置图片预览区宽高
+            this.picViewArea.style.width = winWidth/2 + "px";
+            this.picViewArea.style.height = winHeight/2 + "px";
+            // 显示相关区域
+            this.popupMask.style.display = "block";
+            this.popupWin.style.display = "block";
+            // 设置弹出层宽高位置
+            this.popupWin.style.width = winWidth/2 + 10 + "px";
+            this.popupWin.style.height = winHeight/2 + 10 + "px";
+            this.popupWin.style.marginLeft = -(winWidth/2 + 10)/2 + "px";
+            // 初始化弹出层top值
+            this.popupWin.style.top = -viewHeight + "px";
+            console.log((winHeight - viewHeight)/2);
+            // 启动定时器调整top的值
+            var top = viewHeight;
+            var changeTop = setInterval(function() {
+                top = top - 15;
+                console.log(top);
+                self.popupWin.style.top = -top + "px";
+                console.log(self.popupWin.style.top);
+                if (-top >= ((winHeight - viewHeight)/2) ) {
+                    clearInterval(changeTop);
+                }
+
+            }, 1);
         }
     }
     // 将其暴露给window对象
