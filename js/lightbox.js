@@ -146,8 +146,6 @@
 
             // 根据当前元素id获取当前索引
             this.index = this.getIndexOf(currentId);
-            // console.log(this.index);
-
             // 如果该组图片数组中长度大于1
             if (this.groupData.length > 1) {
                 // 有当前索引判断是否隐藏上下切换按钮
@@ -184,9 +182,10 @@
             this.preLoadImg(soureSrc, function() {
                 self.popupPic.setAttribute("src", soureSrc);
                 // 图片的宽高
-                var picWidth = self.popupPic.width;
-                var picHeight = self.popupPic.height;
-                console.log(picWidth + "---" + picHeight);
+                var picWidth = self.popupPic.width,
+                    picHeight = self.popupPic.height;
+                // 改变弹出层的宽高
+                self.changePopup(picWidth, picHeight);
             });
         },
         preLoadImg: function(soureSrc, callback) {
@@ -195,9 +194,80 @@
                 callback();
             }
             img.src = soureSrc;
+        },
+        // 改变弹出层宽高方法
+        changePopup: function(picWidth, picHeight) {
+            var self = this,
+                winHeight = document.documentElement.clientHeight, // 可见窗口宽度
+                winWidth = document.documentElement.clientWidth; // 可见窗口高度
+            // 如果图片的宽高大于浏览器可视区域
+            var scale  = Math.min(winWidth/(picWidth + 10), winHeight/(picHeight + 10), 1);
+            picWidth = picWidth * scale;
+            picHeight = picHeight * scale;
+            // console.log(scale);
+            // 调用animate方法使改变图片预览区宽高有过度效果
+            animate(this.picViewArea, {
+                width: Math.floor(picWidth - 10), // 这里不取整的话，无法完成
+                height: Math.floor(picHeight - 10)
+            }, 10, 0.5, function() {
+                // console.log("dd");
+            });
+            animate(this.popupWin, {
+                width: Math.floor(picWidth),
+                height: Math.floor(picHeight),
+                marginLeft: -Math.floor((picWidth/2)),
+                top: Math.floor((winHeight - picHeight)/2)
+            }, 10, 0.5, function() {
+                // console.log("ddd");
+                // 显示图片区域和图片描述区域
+                self.popupPic.style.display = "block";
+                self.picCaptionArea.style.display = "block";
+                });
+            // 设置描述文字和当前索引
+            // console.log(this.index);
+            this.captionText.innerText = this.groupData[this.index - 1].caption;
+            this.currentIndex.innerText ="当前索引：" + this.index + "/" + this.groupData.length;
         }
 
     }
     // 将其暴露给window对象
     window.Lightbox = Lightbox;
+}());
+// 实现jQuery中animate效果的函数
+(function() {
+    function animate(obj, css, interval, speedFactor, func) {
+        clearInterval(obj.timer);
+        function getStyle(obj, prop) {
+            if (obj.currentStyle)
+                return obj.currentStyle[prop]; // ie
+            else
+                return document.defaultView.getComputedStyle(obj, null)[prop]; // 非ie
+            }
+        obj.timer = setInterval(function() {
+            var flag = true;
+            for (var prop in css) {
+                var cur = 0;
+                if(prop == "opacity")
+                    cur = Math.round(parseFloat(getStyle(obj, prop)) * 100);
+                else
+                    cur = parseInt(getStyle(obj, prop));
+                var speed = (css[prop] - cur) * speedFactor;
+                speed = speed > 0 ? Math.ceil(speed): Math.floor(speed);
+                if (cur != css[prop])
+                    flag = false;
+                if (prop == "opacity") {
+                    obj.style.filter = "alpha(opacity : '+(cur + speed)+' )";
+                    obj.style.opacity = (cur + speed) / 100;
+                }
+                else
+                    obj.style[prop] = cur + speed + "px";
+                }
+                if (flag) {
+                    clearInterval(obj.timer);
+                if (func)
+                    func();
+                }
+            }, interval);
+        }
+    window.animate = animate;
 }());
