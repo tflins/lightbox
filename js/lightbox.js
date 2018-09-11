@@ -74,7 +74,7 @@
             // 弹出层的html内容
             var strDom = "<div class='lightbox-pic-view'>" +
                             "<span class='lightbox-btn lightbox-prev-btn lightbox-prev-btn-show'></span>" +
-                            "<img class='lightbox-image' src='images/0.jpg' alt='美女1' width='100%'>" +
+                            "<img class='lightbox-image' src='images/0.jpg' alt='美女1'>" +
                             "<span class='lightbox-btn lightbox-next-btn lightbox-next-btn-show'></span>" +
                         "</div>" +
                         "<div class='lightbox-pic-caption'>" +
@@ -128,20 +128,75 @@
             this.popupWin.style.marginLeft = -(winWidth/2 + 10)/2 + "px";
             // 初始化弹出层top值
             this.popupWin.style.top = -viewHeight + "px";
-            console.log((winHeight - viewHeight)/2);
+            //console.log((winHeight - viewHeight)/2);
             // 启动定时器调整top的值
             var top = viewHeight;
             var changeTop = setInterval(function() {
                 top = top - 15;
-                console.log(top);
+                //console.log(top);
                 self.popupWin.style.top = -top + "px";
-                console.log(self.popupWin.style.top);
+                //console.log(self.popupWin.style.top);
                 if (-top >= ((winHeight - viewHeight)/2) ) {
                     clearInterval(changeTop);
+                    // 加载图片尺寸
+                    self.loadPicSize(soureSrc);
                 }
 
             }, 1);
+
+            // 根据当前元素id获取当前索引
+            this.index = this.getIndexOf(currentId);
+            // console.log(this.index);
+
+            // 如果该组图片数组中长度大于1
+            if (this.groupData.length > 1) {
+                // 有当前索引判断是否隐藏上下切换按钮
+                if (this.index === 1) {
+                    this.prevBtn.classList.add("disabled");
+                    this.nextBtn.classList.remove("disabled");
+                } else if(this.index === this.groupData.length) {
+                    this.prevBtn.classList.remove("disabled");
+                    this.nextBtn.classList.add("disabled");
+                } else {
+                    this.prevBtn.classList.remove("disabled");
+                    this.nextBtn.classList.remove("disabled");
+                }
+            }
+        },
+        getIndexOf: function(currentId) {
+            var index = 0;
+
+            // 根据groupData中的id判断当前索引
+            for (var i = 0, len = this.groupData.length; i < len; i++) {
+                if (this.groupData[i].id === currentId) {
+                    index = i + 1;
+                }
+            }
+            // console.log(index);
+            return index;
+        },
+        // 加载图片尺寸方法
+        loadPicSize: function(soureSrc) {
+            //console.log(soureSrc);
+            var self = this;
+
+            // 预加载图片
+            this.preLoadImg(soureSrc, function() {
+                self.popupPic.setAttribute("src", soureSrc);
+                // 图片的宽高
+                var picWidth = self.popupPic.width;
+                var picHeight = self.popupPic.height;
+                console.log(picWidth + "---" + picHeight);
+            });
+        },
+        preLoadImg: function(soureSrc, callback) {
+            var img = new Image();
+            img.onload = function() {
+                callback();
+            }
+            img.src = soureSrc;
         }
+
     }
     // 将其暴露给window对象
     window.Lightbox = Lightbox;
