@@ -195,7 +195,11 @@
         loadPicSize: function(soureSrc) {
             //console.log(soureSrc);
             var self = this;
-
+            // 清楚上一次获取图片的宽高
+            this.popupPic.style.width = "auto";
+            this.popupPic.style.height = "auto";
+            // 隐藏上一次图片，防止出现较差的视觉效果
+            this.popupPic.style.display = "none";
             // 预加载图片
             this.preLoadImg(soureSrc, function() {
                 self.popupPic.setAttribute("src", soureSrc);
@@ -237,7 +241,8 @@
                 top: Math.floor((winHeight - picHeight)/2)
             }, 10, 0.5, function() {
                 // console.log("ddd");
-                self.popupPic.style.width = "100%";
+                self.popupPic.style.width = picWidth + "px";
+                // console.log(picWidth);
                 // 显示图片区域和图片描述区域
                 self.popupPic.style.display = "block";
                 self.picCaptionArea.style.display = "block";
