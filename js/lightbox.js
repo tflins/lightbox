@@ -62,12 +62,16 @@
             self.popupWin.style.display = "none";
         }
         // 点击关闭按钮关闭弹出层和遮罩层
-        this.closeBtn.onclick = function() {
+        this.closeBtn.onclick = function(e) {
+            // 阻止事件冒泡
+            e.stopPropagation();
             self.popupMask.style.display = "none";
             self.popupWin.style.display = "none";
         }
         // 鼠标移入移出上下切换按钮时显示处理
         this.hoverBtn();
+        // 点击切换按钮处理
+        this.clickBtn();
     }
 
     // Lightbox的原型对象
@@ -282,6 +286,72 @@
             this.nextBtn.onmouseout = function() {
                 self.nextBtn.classList.remove("lightbox-next-btn-show");
             };
+        },
+        clickBtn: function() {
+            var self = this;
+            // 点击向上切换按钮时
+            this.prevBtn.onclick = function(e) {
+                // 阻止事件冒泡
+                e.stopPropagation();
+                var prevBtn = self.prevBtn;
+                // 判断当前按钮的class中是否有disable的值
+                var disabled = false;
+                for (var i = 0, len = prevBtn.classList.length; i < len; i++) {
+                    if ( prevBtn.classList[i] === "disabled") {
+                        disabled = true;
+                    }
+                }
+                if (!disabled) {
+                    // 调用切换图片方法
+                    self.goto("prev");
+                    // console.log("aa");
+                }
+            };
+            // 点击向下切换按钮时
+            this.nextBtn.onclick = function(e) {
+                // 阻止事件冒泡
+                e.stopPropagation();
+                var nextBtn = self.nextBtn;
+                // 判断当前按钮的class中是否有disable的值
+                var disabled = false;
+                for (var i = 0, len = nextBtn.classList.length; i < len; i++) {
+                    if ( nextBtn.classList[i] === "disabled") {
+                        disabled = true;
+                    }
+                }
+                if (!disabled) {
+                    // 调用切换图片方法
+                    self.goto("next");
+                    // console.log("dd");
+                }
+            }
+        },
+        // 切换图片方法
+        goto: function(direction) {
+            // 图片原图地址
+            var src;
+            // 向下切换
+            if (direction === "next") {
+                this.index++;
+                src = this.groupData[this.index - 1].src;
+                this.prevBtn.classList.remove("disabled");
+                if (this.index >= this.groupData.length) {
+                    this.nextBtn.classList.add("disabled");
+                    this.nextBtn.classList.remove("lightbox-next-btn-show");
+                }
+            } else if (direction === "prev") {
+                // 向上切换
+                this.index--;
+                src = this.groupData[this.index - 1].src;
+                this.nextBtn.classList.remove("disabled");
+                if (this.index <= 1) {
+                    this.index = 1;
+                    this.prevBtn.classList.add("disabled");
+                    this.prevBtn.classList.remove("lightbox-prev-btn-show");
+                }
+            }
+            // 重新载入图片
+            this.loadPicSize(src);
         }
 
     }
