@@ -105,7 +105,8 @@
             // 插入到弹出层中
             this.popupWin.innerHTML = strDom;
             // 将遮罩层和弹出层添加到body中
-            this.bodyNode.append(this.popupMask, this.popupWin);
+            this.bodyNode.appendChild(this.popupMask);
+            this.bodyNode.appendChild(this.popupWin);
         },
         getGroup: function() {
             var self = this;
@@ -116,14 +117,22 @@
             // 清空groupData数据
             this.groupData.length = 0;
 
-            groupList.forEach(function(value, index) {
-                // 将数据推入groupData中
-                self.groupData.push({
-                    src: value.getAttribute("data-soure"),
-                    id: value.getAttribute("data-id"),
-                    caption: value.getAttribute("data-caption")
+            // 将数据推入groupData中
+            for (var i = 0, len = groupList.length; i < len; i++) {
+                this.groupData.push({
+                    src: groupList[i].getAttribute("data-soure"),
+                    id: groupList[i].getAttribute("data-id"),
+                    caption: groupList[i].getAttribute("data-caption")
                 });
-            });
+            }
+            // 以下代码存在兼容性问题，ie及低版本chrome不能使用，特在此说明
+            // groupList.forEach(function(value, index) {
+            //     self.groupData.push({
+            //         src: value.getAttribute("data-soure"),
+            //         id: value.getAttribute("data-id"),
+            //         caption: value.getAttribute("data-caption")
+            //     });
+            // });
         },
         // 显示遮罩层与弹出层
         showMaskAndPopup: function(soureSrc, currentId) {
