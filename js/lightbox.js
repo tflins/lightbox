@@ -19,7 +19,8 @@
         this.bodyNode.onclick = function(event) {
             var event = event || window.event;
             var target = event.target || event.srcElement;
-            if (target.nodeName.toLowerCase() === "img") {
+            if (target.nodeName.toLowerCase() === "img" && target.getAttribute("data-rote") === "lightbox") {
+                // console.log(target.getAttribute("data-rote"));
                 // 阻止事件冒泡
                 event.stopPropagation();
                 // 当前组名
