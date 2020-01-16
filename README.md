@@ -10,7 +10,7 @@
 
 ## 使用方法
 
-将 dist/main.xxxxx.js 引用到 HTML中。接着给 img 添加自定义属性，其中：
+将 dist/lightbox.js 引用到 HTML 中。接着给 img 添加自定义属性，其中：
 
 ```
 data-rote="lightbox" ---> 表示该图片要启用lightbox
@@ -25,7 +25,7 @@ data-caption="绝世美女" ---> 图片的描述
 <link rel="stylesheet" href="css/lightbox.css">
 <img data-rote="lightbox" data-soure="images/0.jpg" data-group="group-1" data-id="qewsdq"
  data-caption="绝世美女" src="images/0.jpg" alt="美女" width="200px">
-<script type="text/javascript" src="js/lightbox.js"></script>
+<script type="text/javascript" src="lightbox.js"></script>
 <script type="text/javascript">
   (function() {
     var lightbox = new Lightbox();
