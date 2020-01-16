@@ -10,7 +10,7 @@
 
 ## 使用方法
 
-将 icon、css、js 文件拷贝到项目目录，再将 lightbox.css、lightbox.js 引用到 HTML中。接着给 img 添加自定义属性，其中：
+将 dist/main.xxxxx.js 引用到 HTML中。接着给 img 添加自定义属性，其中：
 
 ```
 data-rote="lightbox" ---> 表示该图片要启用lightbox
@@ -36,4 +36,5 @@ data-caption="绝世美女" ---> 图片的描述
 ## 更新记录
 
 2018年9月20日：修复IE浏览器及低版本Chrome的兼容问题
+
 2020年1月16日：使用 wenpack 重新构建
