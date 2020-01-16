@@ -1,11 +1,12 @@
 const { resolve } = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin')
 
 module.exports = {
   mode: 'development',
   entry: resolve(__dirname, './src/index.js'),
   output: {
-    filename: '[name].[hash:16].js',
+    filename: 'lightbox.js',
     path: resolve(__dirname, './dist/')
   },
   module: {
@@ -29,12 +30,34 @@ module.exports = {
             }
           }
         ]
+      },
+      {
+        test: /\.js$/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env']
+          }
+        },
+        exclude: /node_modules/
       }
     ]
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      template: resolve(__dirname, './public/index.html')
+    new CleanWebpackPlugin(),
+    new ParallelUglifyPlugin({
+      uglifyJS: {
+        output: {
+          comments: false
+        },
+        warnings: true,
+        compress: {
+          drop_console: true,
+          collapse_vars: true,
+          reduce_vars: true
+        }
+      },
+      cacheDir: ''
     })
   ]
 }
