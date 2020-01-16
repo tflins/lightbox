@@ -1,0 +1,23 @@
+{
+  "name": "lightbox",
+  "version": "1.0.0",
+  "description": "## 插件介绍",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tflins/lightbox.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tflins/lightbox/issues"
+  },
+  "homepage": "https://github.com/tflins/lightbox#readme",
+  "devDependencies": {
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
+  }
+}
