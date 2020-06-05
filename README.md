@@ -61,6 +61,8 @@ data-caption="绝世美女" ---> 图片的描述
 </script>
 ```
 
+参考代码 [demo code](https://github.com/tflins/lightbox/blob/master/demo/index.html)
+
 ### ES Module
 
 ```bash
