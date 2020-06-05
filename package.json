@@ -1,12 +1,17 @@
 {
   "name": "lightbox-preview.js",
-  "version": "1.0.1",
-  "description": "## 插件介绍",
+  "version": "1.0.3",
+  "description": "使用原生 JavaScript 编写的 lightbox 弹出层图片预览插件，不依赖任何库和框架，开箱即用，自适应宽度。",
   "main": "dist/lightbox.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config webpack.config.js"
   },
+  "keywords": [
+    "javascript",
+    "图片预览",
+    "lightbox"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tflins/lightbox.git"
