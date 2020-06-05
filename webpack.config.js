@@ -7,7 +7,9 @@ module.exports = {
   entry: resolve(__dirname, './src/index.js'),
   output: {
     filename: 'lightbox.js',
-    path: resolve(__dirname, './dist/')
+    path: resolve(__dirname, './dist/'),
+    libraryTarget: 'umd',
+    libraryExport: 'default'
   },
   module: {
     rules: [

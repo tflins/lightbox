@@ -1,6 +1,6 @@
 {
   "name": "lightbox-preview.js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "## 插件介绍",
   "main": "dist/lightbox.js",
   "scripts": {
