@@ -12,7 +12,7 @@
 
 将 dist/lightbox.js 引用到 HTML 中。接着给 img 添加自定义属性，其中：
 
-```
+```txt
 data-rote="lightbox" ---> 表示该图片要启用lightbox
 data-soure="images/0.jpg" ---> 原图地址
 data-group="group-1" ---> 标识当前图片组别
@@ -20,11 +20,12 @@ data-id="xxxxdad" ---> 图片的唯一标识
 data-caption="绝世美女" ---> 图片的描述
 ```
 
-然后 new Lightbox() 即可，如：
+然后 ```new Lightbox()``` 即可，如：
+
 ```html
 <img data-rote="lightbox" data-soure="images/0.jpg" data-group="group-1" data-id="qewsdq"
  data-caption="绝世美女" src="images/0.jpg" alt="美女" width="200px">
- 
+
 <script type="text/javascript" src="lightbox.js"></script>
 <script type="text/javascript">
   (function() {

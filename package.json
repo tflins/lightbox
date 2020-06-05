@@ -1,8 +1,8 @@
 {
-  "name": "lightbox",
+  "name": "lightbox-preview.js",
   "version": "1.0.0",
   "description": "## 插件介绍",
-  "main": "index.js",
+  "main": "dist/lightbox.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config webpack.config.js"
