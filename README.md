@@ -2,7 +2,12 @@
 
 ## 插件介绍
 
-使用原生 JavaScript 编写的 lightbox 弹出层图片预览插件，不依赖任何库和框架，开箱即用。
+使用原生 JavaScript 编写的 lightbox 弹出层图片预览插件，不依赖任何库和框架，开箱即用，自适应宽度。
+
+## 预览图
+
+![preimg1](demo/images/preimg2.gif)
+![preimg1](demo/images/preimg1.gif)
 
 ## 演示地址
 
