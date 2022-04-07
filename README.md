@@ -1,8 +1,8 @@
-# 原生 JavaScript lightbox 弹出层插件
+# 轻量级 JavaScript lightbox 弹出层插件
 
 ## 插件介绍
 
-使用原生 JavaScript 编写的 lightbox 弹出层图片预览插件，不依赖任何库和框架，开箱即用，自适应宽度。
+使用 Vanilla JavaScript 编写的 lightbox 弹出层图片预览插件，不依赖任何库和框架，开箱即用，自适应宽度。
 
 ## 预览图
 
